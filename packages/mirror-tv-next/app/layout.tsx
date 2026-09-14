@@ -129,7 +129,6 @@ export default async function RootLayout({
              */
             mobileScaling: 2.0,
           })
-          window.googletag.pubads().collapseEmptyDivs()
           window.googletag.enableServices()
 
           

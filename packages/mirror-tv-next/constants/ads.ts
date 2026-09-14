@@ -4,7 +4,8 @@
  * 主鍵是規格「廣告單元名稱」。頁面呼叫在後續步驟改為：
  *   <GPTAd adUnit="mnews_article_sidebar_300x250_01" />
  *
- * GPT_UNITS（pageKey + adKey）僅供 P0 過渡，P1 起改查 AD_SLOTS。
+ * GPTAd 查 AD_SLOTS（也可由 pageKey + adKey 對到 adUnit）。
+ * GPT_UNITS 僅供尚未改呼叫點的頁面過渡，P3 刪。
  */
 
 type SingleSizeArray = [number, number]
