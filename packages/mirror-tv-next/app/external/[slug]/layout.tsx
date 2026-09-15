@@ -8,6 +8,8 @@ import {
   GPTPlaceholderMobile,
 } from '~/components/ads/gpt/gpt-placeholder'
 import GPTAd from '~/components/ads/gpt/gpt-ad'
+import GptHiddenSlot from '~/components/ads/gpt/gpt-hidden-slot'
+
 export default function StoryPageLayout({
   children,
 }: {
@@ -30,6 +32,8 @@ export default function StoryPageLayout({
         <main className={styles.article}>{children}</main>
         <Aside />
       </section>
+      <GptHiddenSlot adUnit="mnews_article_footer" />
+      {/* PC 文章錨底 1x1 */}
     </div>
   )
 }
