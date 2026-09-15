@@ -13,9 +13,7 @@ import {
 } from '~/utils/gpt-ad'
 
 type GPTAdProps = {
-  pageKey?: string
-  adKey?: string
-  adUnit?: string
+  adUnit: string
   onSlotRequested?: (event: SlotRequestedEvent) => void
   onSlotRenderEnded?: (event: SlotRenderEndedEvent) => void
   className?: string
@@ -139,8 +137,6 @@ const GPTAdRoot = ({
 }
 
 function GptAd({
-  pageKey,
-  adKey,
   adUnit,
   onSlotRequested,
   onSlotRenderEnded,
@@ -151,11 +147,11 @@ function GptAd({
   const { width = 0 } = useWindowDimensions()
 
   useEffect(() => {
-    if (!width) {
+    if (!width || !adUnit) {
       return
     }
 
-    const resolved = resolveAdSlot({ pageKey, adKey, adUnit, width })
+    const resolved = resolveAdSlot(adUnit)
     setSlot((prev) => {
       if (!resolved) {
         return undefined
@@ -169,7 +165,7 @@ function GptAd({
       return resolved
     })
     setShouldShowAd(resolved ? shouldDisplayAdSlot(resolved, width) : false)
-  }, [adKey, adUnit, pageKey, width])
+  }, [adUnit, width])
 
   if (!shouldShowAd || !slot) {
     return null

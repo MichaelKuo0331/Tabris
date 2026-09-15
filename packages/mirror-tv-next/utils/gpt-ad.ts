@@ -1,6 +1,5 @@
 import {
   GPT_AD_NETWORK,
-  GPT_UNITS,
   getAdSlot,
   mediaSize,
   type AdDevice,
@@ -24,14 +23,6 @@ export function getAdWidth(adSize: SingleSizeArray[]): string {
   return widthMax ? `${widthMax}px` : '0px'
 }
 
-function getDevice(width: number): 'PC' | 'MB' {
-  return width >= mediaSize.xl ? 'PC' : 'MB'
-}
-
-function getAdFullKey(device: 'PC' | 'MB', adKey: string): string {
-  return adKey.includes('_') ? adKey : `${device}_${adKey}`
-}
-
 function getAdUnitPath(adUnit: string): string {
   return `/${GPT_AD_NETWORK}/${adUnit}`
 }
@@ -50,14 +41,8 @@ function toResolved(slot: AdSlot): ResolvedAdSlot {
 
 function fallbackSlot(
   adUnit: string,
-  adSize: SingleSizeArray[],
-  adKey?: string
+  adSize: SingleSizeArray[]
 ): ResolvedAdSlot {
-  const device: AdDevice = adKey?.includes('MB')
-    ? 'MB'
-    : adKey?.includes('PC')
-    ? 'PC'
-    : 'ALL'
   const maxHeight = adSize.reduce((acc, [, height]) => Math.max(acc, height), 0)
 
   return {
@@ -66,26 +51,9 @@ function fallbackSlot(
     adSize,
     gptDivId: `div-gpt-ad-${adUnit}`,
     minHeight: maxHeight > 1 ? maxHeight + 5 : null,
-    device,
+    device: 'ALL',
     kind: 'display',
   }
-}
-
-function getGptUnitData(
-  pageKey: string,
-  adKey: string,
-  width: number
-): { adUnit: string; adSize: SingleSizeArray[] } | undefined {
-  const adFullKey = getAdFullKey(getDevice(width), adKey)
-  const adData = GPT_UNITS[pageKey]?.[adFullKey]
-
-  if (!adData) {
-    console.error(
-      `Unable to find the AD data. Got the pageKey "${pageKey}" and adKey "${adFullKey}".`
-    )
-  }
-
-  return adData
 }
 
 /**
@@ -108,53 +76,18 @@ function getAdSizeFromUnitName(adUnit: string): SingleSizeArray[] | undefined {
   return hasNan || !adSize?.length ? undefined : adSize
 }
 
-export function resolveAdSlot({
-  pageKey,
-  adKey,
-  adUnit,
-  width,
-}: {
-  pageKey?: string
-  adKey?: string
-  adUnit?: string
-  width: number
-}): ResolvedAdSlot | undefined {
-  if (adUnit) {
-    const fromCatalog = getAdSlot(adUnit)
-    if (fromCatalog) {
-      return toResolved(fromCatalog)
-    }
-
-    const parsedSize = getAdSizeFromUnitName(adUnit)
-    if (parsedSize) {
-      return fallbackSlot(adUnit, parsedSize)
-    }
-
-    console.error(`Unknown adUnit "${adUnit}"`)
-    return
+export function resolveAdSlot(adUnit: string): ResolvedAdSlot | undefined {
+  const fromCatalog = getAdSlot(adUnit)
+  if (fromCatalog) {
+    return toResolved(fromCatalog)
   }
 
-  if (pageKey && adKey) {
-    const adData = getGptUnitData(pageKey, adKey, width)
-    if (!adData) {
-      return
-    }
-
-    const fromCatalog = getAdSlot(adData.adUnit)
-    if (fromCatalog) {
-      return toResolved(fromCatalog)
-    }
-
-    return fallbackSlot(
-      adData.adUnit,
-      adData.adSize,
-      getAdFullKey(getDevice(width), adKey)
-    )
+  const parsedSize = getAdSizeFromUnitName(adUnit)
+  if (parsedSize) {
+    return fallbackSlot(adUnit, parsedSize)
   }
 
-  console.error(
-    `GPTAd not receive necessary pageKey '${pageKey}' and adKey '${adKey}' or adUnit '${adUnit}'`
-  )
+  console.error(`Unknown adUnit "${adUnit}"`)
 }
 
 export function shouldDisplayAdSlot(

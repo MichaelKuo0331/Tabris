@@ -1,11 +1,8 @@
 /**
  * GAM 版位目錄（adGeek 規格書 20260903 / 0828 琴宣更）
  *
- * 主鍵是規格「廣告單元名稱」。頁面呼叫在後續步驟改為：
+ * 主鍵是規格「廣告單元名稱」。
  *   <GPTAd adUnit="mnews_article_sidebar_300x250_01" />
- *
- * GPTAd 查 AD_SLOTS（也可由 pageKey + adKey 對到 adUnit）。
- * GPT_UNITS 僅供尚未改呼叫點的頁面過渡，P3 刪。
  */
 
 type SingleSizeArray = [number, number]
@@ -481,102 +478,6 @@ function getAdSlot(adUnit: string): AdSlot | undefined {
   return AD_SLOTS[adUnit as AdUnitName]
 }
 
-function fromSlot(adUnit: AdUnitName): {
-  adUnit: string
-  adSize: SingleSizeArray[]
-} {
-  const adSlot = AD_SLOTS[adUnit]
-  return {
-    adUnit: adSlot.adUnit,
-    adSize: [...adSlot.adSize],
-  }
-}
-
-interface GPTUnits {
-  [pageKey: string]: {
-    [adKey: string]: {
-      adUnit: string
-      adSize: SingleSizeArray[]
-    }
-  }
-}
-
-/**
- * P0 過渡：既有 <GPTAd pageKey adKey /> 仍走這裡。
- * 規格沒有、但頁面還在呼叫的 slot 標「P3 刪」。
- */
-const GPT_UNITS: GPTUnits = {
-  fs: {
-    MB_HOME: fromSlot('mnews_m_320x480_Home'),
-    MB_CATEGORY: fromSlot('mnews_m_320x480_category'),
-    MB_NEWS: fromSlot('mnews_m_320x480_News'),
-    MB_PROGRAM: fromSlot('mnews_m_320x480_program'),
-    MB_VIDEO: fromSlot('mnews_m_320x480_video'),
-  },
-  all: {
-    PC_HD: fromSlot('mnews_masthead_top_970x400'),
-  },
-  home: {
-    PC_BT: fromSlot('mnews_home_900x280'),
-    // P3 刪：規格無此單元
-    PC_BT2: {
-      adUnit: 'mnews_home_middle_900x280',
-      adSize: [
-        [900, 280],
-        [1, 1],
-      ] satisfies SingleSizeArray[],
-    },
-    MB_M1: fromSlot('mnews_m_home_300x250_01'),
-    MB_M2: fromSlot('mnews_m_home_300x250_02'),
-    MB_M3: fromSlot('mnews_m_home_300x250_03'),
-    MB_M4: fromSlot('mnews_m_home_300x250_04'),
-  },
-  story: {
-    PC_R1: fromSlot('mnews_article_sidebar_300x250_01'),
-    PC_R2: fromSlot('mnews_article_sidebar_300x250_02'),
-    PC_R3: fromSlot('mnews_article_sidebar_300x250_03'),
-    PC_AT1: fromSlot('mnews_article_middle_300x250_01'),
-    MB_M1: fromSlot('mnews_m_article_top_300x250'),
-    MB_M2: fromSlot('mnews_m_article_middle_300x250'),
-  },
-  category: {
-    PC_R1: fromSlot('mnews_category_sidebar_300x250_01'),
-    PC_R2: fromSlot('mnews_category_sidebar_300x250_02'),
-    PC_BT: fromSlot('mnews_category_900x280'),
-    MB_M1: fromSlot('mnews_m_category_top_300x250'),
-    MB_M2: fromSlot('mnews_m_category_middle_300x250'),
-    MB_M3: fromSlot('mnews_m_category_end_300x250_04'),
-  },
-  video: {
-    PC_R1: fromSlot('mnews_video_sidebar_300x250_01'),
-    PC_R2: fromSlot('mnews_video_sidebar_300x250_02'),
-    PC_R3: fromSlot('mnews_video_sidebar_300x600_03'),
-    PC_BT: fromSlot('mnews_video_900x280'),
-    MB_M1: fromSlot('mnews_m_video_300x250_01'),
-    // P3 刪：規格無此單元
-    MB_M2: {
-      adUnit: 'mnews_m_video_300x250_02',
-      adSize: [
-        [300, 250],
-        [336, 280],
-        [320, 480],
-        [1, 1],
-      ] satisfies SingleSizeArray[],
-    },
-    MB_M3: fromSlot('mnews_m_video_300x250_03'),
-    MB_M4: fromSlot('mnews_m_video_300x250_04'),
-  },
-  show: {
-    PC_R1: fromSlot('mnews_program_sidebar_300x250_01'),
-    PC_R2: fromSlot('mnews_program_sidebar_300x250_02'),
-    PC_R3: fromSlot('mnews_program_sidebar_300x600_03'),
-    PC_BT: fromSlot('mnews_program_900x280'),
-    MB_M1: fromSlot('mnews_m_program_top_300x250'),
-    MB_M2: fromSlot('mnews_m_program_middle_300x250'),
-    MB_M3: fromSlot('mnews_m_program_end_300x250_04'),
-  },
-}
-
 const GPT_AD_NETWORK = '22699107359'
 
 const mediaSize = {
@@ -588,5 +489,5 @@ const mediaSize = {
   xxl: 1440,
 }
 
-export { AD_SLOTS, GPT_AD_NETWORK, GPT_UNITS, getAdSlot, mediaSize }
+export { AD_SLOTS, GPT_AD_NETWORK, getAdSlot, mediaSize }
 export type { AdDevice, AdKind, AdSlot, AdUnitName, SingleSizeArray }

@@ -320,7 +320,10 @@ const ApiDataRenderer = async ({
             return <YoutubeBlock key={apiDataBlock.id} data={apiDataBlock} />
           case ApiDataBlockType.GptAd:
             return (
-              <GPTAd pageKey="story" adKey="PC_AT1" key={apiDataBlock.id} />
+              <GPTAd
+                adUnit="mnews_article_middle_300x250_01"
+                key={apiDataBlock.id}
+              />
             )
           default: {
             console.error('unhandled apiData type', apiDataBlock)

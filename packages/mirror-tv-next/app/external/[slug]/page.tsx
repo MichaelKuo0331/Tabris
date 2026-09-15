@@ -343,7 +343,7 @@ const ExternalPage = async (props: ExternalPageTypes) => {
       <MisoPageView productIds={`external_${params.slug}`} />
       <GA4SourceTracking source={source} />
       <section className={styles.article}>
-        <ContainerFullScreenAds adKey="MB_NEWS" />
+        <ContainerFullScreenAds adUnit="mnews_m_320x480_News" />
         {thumbnail && (
           <ArticleHeroImageAndVideo
             heroImage={{

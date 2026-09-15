@@ -22,10 +22,10 @@ export default function StoryPageLayout({
 
       <section className={styles.ads}>
         <GPTPlaceholderMobile>
-          <GPTAd pageKey="story" adKey="MB_M1" />
+          <GPTAd adUnit="mnews_m_article_top_300x250" />
         </GPTPlaceholderMobile>
         <GPTPlaceholderDesktop>
-          <GPTAd pageKey="all" adKey="PC_HD" />
+          <GPTAd adUnit="mnews_masthead_top_970x400" />
         </GPTPlaceholderDesktop>
       </section>
       <section className={styles.story}>
