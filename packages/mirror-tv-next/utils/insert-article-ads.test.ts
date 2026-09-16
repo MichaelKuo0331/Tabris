@@ -4,7 +4,7 @@ import {
   ARTICLE_INLINE_AD,
   insertAdsIntoApiData,
   splitHtmlWithArticleAds,
-} from './insert-article-ads.ts'
+} from './insert-article-ads'
 
 type TestBlock = {
   id: string
