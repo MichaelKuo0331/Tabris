@@ -73,7 +73,7 @@ const AD_SLOTS = {
     'anchor'
   ),
 
-  // --- 蓋版 MB ---
+  // --- 蓋版 MB（延遲 3 秒後呼叫） ---
   // /category/{slug}
   mnews_m_320x480_category: slot(
     'mnews_m_320x480_category',
