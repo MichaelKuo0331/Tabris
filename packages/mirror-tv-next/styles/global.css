@@ -3,7 +3,7 @@
 }
 
 html {
-  font-family: var(--font-noto-sans-tc), sans-serif;
+  font-family: 'Noto Sans TC', sans-serif;
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
   line-height: 1.15; /* 1 */

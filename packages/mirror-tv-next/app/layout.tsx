@@ -1,7 +1,6 @@
 import { DataProvider } from '~/context/data-context'
 import { GoogleTagManager } from '@next/third-parties/google'
 import type { Metadata } from 'next'
-import { Noto_Sans_TC } from 'next/font/google'
 import Script from 'next/script'
 import Footer from '~/components/layout/footer'
 import MainHeader from '~/components/layout/header/main-header'
@@ -23,12 +22,8 @@ import styles from '../styles/pages/layout.module.scss'
 import GptHiddenSlot from '~/components/ads/gpt/gpt-hidden-slot'
 import GptAnchor from '~/components/ads/gpt/gpt-anchor'
 
-const notoSansTC = Noto_Sans_TC({
-  subsets: ['latin'],
-  display: 'swap',
-  preload: false,
-  variable: '--font-noto-sans-tc',
-})
+const NOTO_SANS_TC_STYLESHEET =
+  'https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300..900&display=swap'
 
 export const revalidate = 0
 
@@ -105,7 +100,14 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="zh-Hant" className={notoSansTC.variable}>
+    <html lang="zh-Hant">
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossOrigin="anonymous"
+      />
+      <link href={NOTO_SANS_TC_STYLESHEET} rel="stylesheet" />
       <GoogleTagManager gtmId={GTM_ID} />
       <Script
         async
