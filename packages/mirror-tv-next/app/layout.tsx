@@ -1,6 +1,7 @@
 import { DataProvider } from '~/context/data-context'
 import { GoogleTagManager } from '@next/third-parties/google'
 import type { Metadata } from 'next'
+import { Noto_Sans_TC } from 'next/font/google'
 import Script from 'next/script'
 import Footer from '~/components/layout/footer'
 import MainHeader from '~/components/layout/header/main-header'
@@ -21,6 +22,13 @@ import { fetchStaticJson } from '~/utils/fetch-static-json'
 import styles from '../styles/pages/layout.module.scss'
 import GptHiddenSlot from '~/components/ads/gpt/gpt-hidden-slot'
 import GptAnchor from '~/components/ads/gpt/gpt-anchor'
+
+const notoSansTC = Noto_Sans_TC({
+  subsets: ['latin'],
+  display: 'swap',
+  preload: false,
+  variable: '--font-noto-sans-tc',
+})
 
 export const revalidate = 0
 
@@ -95,10 +103,9 @@ export default async function RootLayout({
   } catch (error) {
     console.error('Failed to fetch header data:', error)
   }
-  console.log('GTM_ID', GTM_ID)
 
   return (
-    <html lang="zh-Hant">
+    <html lang="zh-Hant" className={notoSansTC.variable}>
       <GoogleTagManager gtmId={GTM_ID} />
       <Script
         async
