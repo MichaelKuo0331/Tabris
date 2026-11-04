@@ -101,13 +101,15 @@ export default async function RootLayout({
 
   return (
     <html lang="zh-Hant">
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossOrigin="anonymous"
-      />
-      <link href={NOTO_SANS_TC_STYLESHEET} rel="stylesheet" />
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link href={NOTO_SANS_TC_STYLESHEET} rel="stylesheet" />
+      </head>
       <GoogleTagManager gtmId={GTM_ID} />
       <Script
         async
